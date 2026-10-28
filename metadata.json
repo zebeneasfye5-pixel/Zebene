@@ -1,0 +1,11 @@
+{
+  "name": "Oneworld",
+  "description": "Virtual Houses & Global Assembly platform founded by Zebene Asfaye (Hበ1 አስፋዬ) in 2026. Features 15 sandboxed virtual houses, unlimited chairs, AI language simultaneous interpretation, and secure Chapa/CBE/Stripe financial revenue engine.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

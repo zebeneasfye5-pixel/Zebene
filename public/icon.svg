@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="70%" stop-color="#090a16" />
+      <stop offset="100%" stop-color="#03040a" />
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="40%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="100" fill="url(#bgGlow)" />
+  <circle cx="256" cy="256" r="200" fill="none" stroke="url(#goldGrad)" stroke-width="6" opacity="0.4" stroke-dasharray="12 12" />
+  <circle cx="256" cy="256" r="160" fill="none" stroke="url(#goldGrad)" stroke-width="8" opacity="0.8" />
+  <ellipse cx="256" cy="256" rx="160" ry="70" fill="none" stroke="url(#goldGrad)" stroke-width="4" opacity="0.6" />
+  <ellipse cx="256" cy="256" rx="70" ry="160" fill="none" stroke="url(#goldGrad)" stroke-width="4" opacity="0.6" />
+  <!-- Center Oneworld Symbol (African star & globe node) -->
+  <circle cx="256" cy="256" r="40" fill="url(#goldGrad)" />
+  <path d="M256 120 L266 148 L296 148 L272 166 L281 194 L256 176 L231 194 L240 166 L216 148 L246 148 Z" fill="#ffffff" />
+  <text x="256" y="440" font-family="system-ui, -apple-system, sans-serif" font-size="34" font-weight="900" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="4">ONEWORLD</text>
+  <text x="256" y="475" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="2">Hበ1 • 2026</text>
+</svg>
