@@ -27,12 +27,12 @@ import { Sidebar } from './components/Sidebar';
 import { HousesGrid } from './components/HousesGrid';
 import { VirtualHouseRoom } from './components/VirtualHouseRoom';
 import { LanguageEngineModal } from './components/LanguageEngineModal';
-import { FinancialDashboardModal } from './components/FinancialDashboardModal';
+import { UserWalletCenterModal } from './components/UserWalletCenterModal';
 import { AdminConsoleModal } from './components/AdminConsoleModal';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import { IndividualSignupGateModal } from './components/IndividualSignupGateModal';
 import { GamificationLotteryArena } from './components/GamificationLotteryArena';
-import { FOUNDER_NAME, getMaskedFounderAccount } from './services/secureConfig';
+import { FOUNDER_NAME } from './services/secureConfig';
 
 export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState<LanguageCode>('am');
@@ -155,12 +155,11 @@ export default function App() {
         }}
       />
 
-      {/* Financial & Revenue Architecture Modal (80/10/10 split) */}
-      <FinancialDashboardModal
+      {/* Multi-Tenant SaaS Wallet Center Modal */}
+      <UserWalletCenterModal
         isOpen={isFinancialModalOpen}
         onClose={() => setIsFinancialModalOpen(false)}
         currentLanguage={currentLanguage}
-        selectedHouseId={financialTargetHouseId}
       />
 
       {/* Secure Admin Console Modal */}
@@ -212,9 +211,23 @@ export default function App() {
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="max-w-3xl space-y-3.5">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-mono font-semibold">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>FOUNDED BY ZEBENE ASFAYE (ዘበነ አስፍዬ) • 2026</span>
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#060B14] border border-cyan-500/40 p-1 shadow-lg shadow-cyan-950/50 shrink-0 flex items-center justify-center overflow-hidden">
+                    <img
+                      src="/assets/oneworld-logo.png"
+                      alt="Oneworld Official Celestial Emblem"
+                      className="w-full h-full object-contain filter drop-shadow(0 0 10px rgba(34,211,238,0.5))"
+                    />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[11px] font-mono font-semibold">
+                      <Sparkles className="w-3 h-3 text-amber-400" />
+                      <span>FOUNDED BY ZEBENE ASFAYE (ዘበነ አስፋዬ) • 2026</span>
+                    </div>
+                    <div className="text-[11px] text-cyan-300 font-mono mt-0.5">
+                      ኦፊሴላዊ የሰለስቲያል ህብረ-ኮከብ አርማ (Official Celestial Emblem)
+                    </div>
+                  </div>
                 </div>
 
                 <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
@@ -222,7 +235,7 @@ export default function App() {
                 </h1>
 
                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                  በዘበነ አስፍዬ (Hበ1) በ2026 የተመሰረተ ዓለም አቀፍ የዲጂታል ሉዓላዊነት፣ የባህል ቅርስ እና ማህበረሰባዊ ትስስር መድረክ። ያልተገደበ የወንበር ሥርዓት፣ የቀጥታ 8 ቋንቋዎች የኤአይ ትርጉም እና 80/10/10 የገቢ ክፍፍል ሥርዓት።
+                  በዘበነ አስፍዬ (Hበ1) በ2026 የተመሰረተ ዓለም አቀፍ የዲጂታል ሉዓላዊነት፣ የባህል ቅርስ እና ማህበረሰባዊ ትስስር መድረክ። ያልተገደበ የወንበር ሥርዓት፣ የቀጥታ 8 ቋንቋዎች የኤአይ ትርጉም እና ባለብዙ-ተከራይ የዲጂታል ዋሌት ሥርዓት (Multi-Tenant SaaS Ledger)።
                 </p>
 
                 {/* Quick Interactive Arena Launcher Callout */}
@@ -258,7 +271,7 @@ export default function App() {
                         <strong>የኤአይ ቋንቋ ሞተር (AI Translation Layer):</strong> አማርኛ፣ ኦሮምኛ፣ ትግርኛ፣ እንግሊዝኛ፣ ፈረንሳይኛ፣ ቻይንኛ፣ አረብኛ እና ጀርመንኛን በቅጽበት በድምፅና በጽሑፍ ያስተላልፋል።
                       </li>
                       <li>
-                        <strong>ጥብቅ የገቢ ክፍፍል (80/10/10 Split Ledger):</strong> 80% በቀጥታ ለተጠቃሚው ዋሌት፣ 10% ለባንክ ቁጠባ ትርፍ፣ 10% የገንቢ ኮሚሽን ለዘበነ አስፍዬ ሉዓላዊ የክፍያ ቋት (Sovereign Settlement Vault) ይከፋፈላል።
+                        <strong>ባለብዙ-ተከራይ ሳስ ዋሌት (Multi-Tenant SaaS Ledger):</strong> ለእያንዳንዱ ዜጋ፣ ንግድና የመንግስት ተቋም የተከለለ ባለብዙ-ገንዘብ ዋሌት፣ በቴሌብር፣ ቻፓ፣ ስትራይፕ፣ ፔይፓልና ክሪፕቶግራፊክ ቫውቸር የሚሰራ አስተማማኝ ሥርዓት።
                       </li>
                     </ul>
                   </div>
@@ -287,8 +300,8 @@ export default function App() {
                   <span className="text-amber-400 font-bold">15 / 15 Online</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <span className="text-slate-400">Revenue Split:</span>
-                  <span className="text-emerald-400 font-bold">80% / 10% / 10%</span>
+                  <span className="text-slate-400">Wallet Engine:</span>
+                  <span className="text-emerald-400 font-bold">Multi-Tenant SaaS Active</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400">የስርዓት አድሚን:</span>
@@ -340,16 +353,18 @@ export default function App() {
       <footer className="mt-auto bg-[#040810] border-t border-slate-800/80 text-xs text-slate-400 py-8 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div className="space-y-1.5">
-            <div className="flex items-center justify-center md:justify-start gap-2 text-white font-bold text-sm">
-              <span className="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-mono font-black">
-                Hበ1
-              </span>
+            <div className="flex items-center justify-center md:justify-start gap-2.5 text-white font-bold text-sm">
+              <img
+                src="/assets/oneworld-logo.png"
+                alt="Oneworld Emblem"
+                className="w-7 h-7 rounded-lg object-contain bg-[#070B14] border border-cyan-500/40 p-0.5 shadow-sm"
+              />
               <span>አንድ ዓለም • Oneworld Platform</span>
               <span className="text-slate-500">•</span>
               <span className="text-amber-400 font-mono text-xs">2026 Charter</span>
             </div>
             <p className="text-slate-400 text-[11px]">
-              የተመሰረተው በ <strong className="text-white">{FOUNDER_NAME}</strong> • {getMaskedFounderAccount(false)}
+              የተመሰረተው በ <strong className="text-white">{FOUNDER_NAME}</strong> • 2026 Sovereign Charter | Multi-Tenant SaaS Subsystem
             </p>
             <p className="text-[10px] text-slate-500 font-mono">
               Admin Authenticated • Multi-Factor Node • House Cryptographic Sandboxing Active
@@ -359,21 +374,21 @@ export default function App() {
           <div className="flex flex-col items-center md:items-end gap-2">
             <div className="flex items-center gap-2 flex-wrap justify-center text-[10px] font-mono text-slate-400">
               <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-amber-300">
-                Chapa (ቴሌብር / CBE Birr)
+                telebirr & Chapa Direct
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-emerald-300">
-                CBE Direct Settlement Vault
+                CBE Gateway
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-blue-300">
                 Stripe Global
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-indigo-300">
-                PayPal
+                PayPal & USDT
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-mono">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>PCI-DSS & NBE Compliant Automated 80/10/10 Settlement</span>
+              <span>PCI-DSS Level 1 & NBE Integrated Multi-Tenant SaaS Subsystem</span>
             </div>
           </div>
         </div>

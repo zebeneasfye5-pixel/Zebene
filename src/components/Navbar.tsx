@@ -9,6 +9,7 @@ import {
   Layers,
   Gamepad2,
   Lock,
+  Wallet,
 } from 'lucide-react';
 import { LanguageCode } from '../types';
 import { UI_TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
@@ -59,8 +60,12 @@ export const Navbar: React.FC<Props> = ({
 
           {/* Logo & Founder Badge */}
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-600 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/20">
-              <span className="text-sm font-black tracking-tighter">Hበ1</span>
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-[#060A12] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 flex items-center justify-center p-0.5 shrink-0">
+              <img
+                src="/assets/oneworld-logo.png"
+                alt="Oneworld Emblem"
+                className="w-full h-full object-contain"
+              />
             </div>
 
             <div>
@@ -108,16 +113,16 @@ export const Navbar: React.FC<Props> = ({
             </span>
           </button>
 
-          {/* Financial Engine Button */}
+          {/* Multi-Tenant SaaS Wallet Center Button */}
           <button
             onClick={onOpenFinancials}
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 hover:border-emerald-400 text-xs text-emerald-300 font-semibold transition"
-            title="Financial Architecture & Revenue Engine (Chapa / CBE / Stripe / PayPal)"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 hover:border-emerald-400 text-xs text-emerald-300 font-semibold transition shadow-sm"
+            title="Multi-Tenant SaaS Wallet Center (telebirr / Chapa / Stripe / PayPal / USDT)"
           >
-            <Landmark className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="hidden sm:inline">Revenue Engine</span>
-            <span className="text-[10px] font-mono bg-emerald-500/20 px-1.5 py-0.5 rounded text-emerald-300">
-              80/10/10
+            <Wallet className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="hidden sm:inline">ዋሌት (Wallet)</span>
+            <span className="text-[10px] font-mono bg-emerald-500/20 px-1.5 py-0.5 rounded text-emerald-300 font-bold">
+              14,250 ETB
             </span>
           </button>
 

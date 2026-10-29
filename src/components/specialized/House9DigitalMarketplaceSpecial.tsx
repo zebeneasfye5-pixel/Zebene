@@ -12,7 +12,9 @@ import {
   Phone,
   Plus,
   Send,
+  TrendingUp,
 } from 'lucide-react';
+import { TenantLedgerService } from '../../services/tenantLedgerService';
 
 interface ProductItem {
   id: string;
@@ -35,6 +37,7 @@ interface ClassifiedAd {
   price: string;
   contactPhone: string;
   postedAt: string;
+  isBoosted?: boolean;
 }
 
 export const House9DigitalMarketplaceSpecial: React.FC = () => {
@@ -148,6 +151,27 @@ export const House9DigitalMarketplaceSpecial: React.FC = () => {
     setShowPostAdModal(false);
   };
 
+  const [boostNotice, setBoostNotice] = useState<string | null>(null);
+
+  const handleBoostAd = (adId: string, title: string) => {
+    const result = TenantLedgerService.processMarketplaceAdBid(
+      'tenant-business-1',
+      title,
+      500,
+      'ETB'
+    );
+    if (result.success) {
+      setClassifieds((prev) =>
+        prev.map((a) => (a.id === adId ? { ...a, isBoosted: true } : a))
+      );
+      setBoostNotice(`Ad "${title}" is now Spotlight Promoted (500 ETB escrow bid locked).`);
+      setTimeout(() => setBoostNotice(null), 4000);
+    } else {
+      setBoostNotice(result.message);
+      setTimeout(() => setBoostNotice(null), 4000);
+    }
+  };
+
   return (
     <div className="w-full rounded-2xl bg-gradient-to-br from-[#1C0F08] to-[#0A0503] border border-orange-500/30 p-4 sm:p-5 text-white shadow-xl space-y-4">
       {/* Header */}
@@ -228,7 +252,7 @@ export const House9DigitalMarketplaceSpecial: React.FC = () => {
                 {orderedProduct === item.id ? (
                   <div className="p-2 rounded-lg bg-emerald-950 text-emerald-300 font-bold text-center text-xs flex items-center justify-center gap-1.5 border border-emerald-500/50">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>ትዕዛዝ ተፈጽሟል! (80/10/10 Split Escrowed)</span>
+                    <span>ትዕዛዝ ተፈጽሟል! (Multi-Tenant Escrow Secured)</span>
                   </div>
                 ) : (
                   <button
@@ -326,10 +350,31 @@ export const House9DigitalMarketplaceSpecial: React.FC = () => {
             </form>
           )}
 
+          {boostNotice && (
+            <div className="p-2.5 rounded-xl bg-orange-950/80 border border-orange-500/50 text-xs text-orange-200 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-orange-400 shrink-0" />
+              <span>{boostNotice}</span>
+            </div>
+          )}
+
           {/* Classifieds Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {classifieds.map((ad) => (
-              <div key={ad.id} className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between space-y-2">
+              <div
+                key={ad.id}
+                className={`p-3.5 rounded-xl bg-slate-900/80 border transition flex flex-col justify-between space-y-2 relative overflow-hidden ${
+                  ad.isBoosted
+                    ? 'border-orange-500 shadow-lg shadow-orange-500/20 ring-1 ring-orange-400/50'
+                    : 'border-slate-800'
+                }`}
+              >
+                {ad.isBoosted && (
+                  <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-slate-950 font-black text-[9px] font-mono tracking-wider flex items-center gap-1 shadow">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    <span>SPOTLIGHT</span>
+                  </div>
+                )}
+
                 <div>
                   <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
                     <span className="font-semibold text-orange-400 truncate max-w-[140px]">{ad.merchantName}</span>
@@ -339,12 +384,25 @@ export const House9DigitalMarketplaceSpecial: React.FC = () => {
                   <p className="text-[11px] text-slate-300 leading-relaxed">{ad.bodyText}</p>
                 </div>
 
-                <div className="border-t border-slate-800/80 pt-2 text-[10px]">
-                  <div className="font-mono font-bold text-amber-300 mb-1">{ad.price}</div>
-                  <div className="flex items-center gap-1 text-emerald-400 font-mono">
-                    <Phone className="w-3 h-3" />
-                    <span>{ad.contactPhone}</span>
+                <div className="border-t border-slate-800/80 pt-2 text-[10px] space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono font-bold text-amber-300">{ad.price}</span>
+                    <div className="flex items-center gap-1 text-emerald-400 font-mono">
+                      <Phone className="w-3 h-3" />
+                      <span>{ad.contactPhone}</span>
+                    </div>
                   </div>
+
+                  {!ad.isBoosted && (
+                    <button
+                      type="button"
+                      onClick={() => handleBoostAd(ad.id, ad.title)}
+                      className="w-full py-1.5 rounded-lg bg-orange-600/30 hover:bg-orange-600/50 border border-orange-500/40 text-orange-300 font-bold text-[10px] flex items-center justify-center gap-1 transition"
+                    >
+                      <TrendingUp className="w-3 h-3" />
+                      <span>Boost Listing (500 ETB Bid)</span>
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

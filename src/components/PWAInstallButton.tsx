@@ -107,10 +107,21 @@ export const PWAInstallButton: React.FC<Props> = ({ variant = 'sidebar', onInsta
             >
               <X className="w-5 h-5" />
             </button>
-            <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 mb-4">
-              <Download className="w-6 h-6" />
+            <div className="flex items-center gap-3.5 mb-4">
+              <div className="w-14 h-14 rounded-2xl bg-[#060B14] border border-cyan-500/40 p-1 flex items-center justify-center shadow-lg shadow-cyan-950/50 shrink-0">
+                <img
+                  src="/assets/oneworld-logo.png"
+                  alt="Oneworld Emblem"
+                  className="w-full h-full object-contain filter drop-shadow(0 0 6px rgba(34,211,238,0.4))"
+                />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-white">Install Oneworld (PWA)</h3>
+                <p className="text-[11px] text-amber-300 font-mono">
+                  Official Celestial App by Zebene Asfaye
+                </p>
+              </div>
             </div>
-            <h3 className="text-base font-bold text-white">Install Oneworld (PWA)</h3>
             <p className="mt-2 text-xs text-slate-300 leading-relaxed">
               Oneworld is a standalone Progressive Web App founded by Zebene Asfaye (2026).
             </p>

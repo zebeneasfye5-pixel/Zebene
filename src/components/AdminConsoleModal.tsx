@@ -17,8 +17,8 @@ import {
 import { LanguageCode } from '../types';
 import { UI_TRANSLATIONS } from '../data/translations';
 import { HOUSES } from '../data/housesData';
-import { ZEBENE_ASFAYE_ACCOUNT_META, RevenueEngine } from '../services/revenueEngine';
-import { verifyAdminPin, getMaskedFounderAccount, FOUNDER_NAME } from '../services/secureConfig';
+import { TenantLedgerService } from '../services/tenantLedgerService';
+import { verifyAdminPin, FOUNDER_NAME } from '../services/secureConfig';
 
 interface Props {
   isOpen: boolean;
@@ -58,7 +58,7 @@ export const AdminConsoleModal: React.FC<Props> = ({ isOpen, onClose, currentLan
     }, 3000);
   };
 
-  const summary = RevenueEngine.getFinancialSummary();
+  const internalLogs = TenantLedgerService.getInternalPlatformLogs();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200">
@@ -134,7 +134,7 @@ export const AdminConsoleModal: React.FC<Props> = ({ isOpen, onClose, currentLan
                     </span>
                   </div>
                   <p className="text-xs text-slate-400">
-                    Founder: <strong className="text-amber-300">{FOUNDER_NAME}</strong> • <span className="font-mono text-emerald-400">{getMaskedFounderAccount(true)}</span>
+                    Founder: <strong className="text-amber-300">{FOUNDER_NAME}</strong> • <span className="font-mono text-emerald-400">Multi-Tenant Cryptographic HSM Node [Verified]</span>
                   </p>
                 </div>
               </div>
@@ -196,11 +196,11 @@ export const AdminConsoleModal: React.FC<Props> = ({ isOpen, onClose, currentLan
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                    <div className="text-[10px] text-slate-400 uppercase font-mono">Dev Commission</div>
+                    <div className="text-[10px] text-slate-400 uppercase font-mono">Platform Ledger</div>
                     <div className="text-xl font-bold text-amber-400 mt-1 font-mono">
-                      ETB {summary.devCommissionETB.toLocaleString()}
+                      {internalLogs.length} Records
                     </div>
-                    <div className="text-[10px] text-amber-300 mt-0.5">+ ${summary.devCommissionUSD} USD</div>
+                    <div className="text-[10px] text-emerald-300 mt-0.5">Automated Multi-Tenant</div>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
@@ -296,28 +296,45 @@ export const AdminConsoleModal: React.FC<Props> = ({ isOpen, onClose, currentLan
               </div>
             )}
 
-            {/* Tab: Financials */}
+            {/* Tab: Financials (Internal Multi-Tenant Platform Ledger) */}
             {activeTab === 'financials' && (
               <div className="space-y-4">
                 <div className="p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-amber-950/30 border border-amber-500/40">
                   <div className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-1">
-                    Founder Developer Commission Protocol (80% / 10% / 10% Split)
+                    Multi-Tenant SaaS Internal Platform Escrow & Fee Ledger
                   </div>
                   <div className="text-sm font-semibold text-white">
-                    {ZEBENE_ASFAYE_ACCOUNT_META.accountName}
+                    {FOUNDER_NAME} • System Core Administration
                   </div>
                   <div className="mt-2 text-xs font-mono text-slate-300 space-y-1">
-                    <div>Commission Route: <span className="text-amber-400 font-bold">10% Immutable Split</span></div>
-                    <div>CBE Account Number: <span className="text-emerald-400 font-bold">{ZEBENE_ASFAYE_ACCOUNT_META.cbeAccountNumber}</span></div>
-                    <div>User Wallet Allocation: <span className="text-emerald-400 font-bold">80% Directly to Creators & Speakers</span></div>
-                    <div>Bank Savings Yield: <span className="text-blue-400 font-bold">10% Sovereign Escrow</span></div>
-                    <div>Primary Settlement Bank: <span className="text-slate-200">{ZEBENE_ASFAYE_ACCOUNT_META.bankRouting}</span></div>
-                    <div>Status: <span className="text-emerald-400 font-bold">Active & Disbursing</span></div>
+                    <div>Streaming Gift Service Fee: <span className="text-amber-400 font-bold">25.00% Automated Platform Fee</span></div>
+                    <div>Premium Locked House Admission: <span className="text-purple-400 font-bold">10.00% Flat Protocol Split</span></div>
+                    <div>VIP Seating (#1-#5) Lease Fee: <span className="text-purple-400 font-bold">10.00% System Reserve</span></div>
+                    <div>Marketplace Advertising Auction: <span className="text-emerald-400 font-bold">15.00% Escrow Fee</span></div>
+                    <div>Ledger Isolation: <span className="text-emerald-400 font-bold">Active & Multi-Tenant Sharded</span></div>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-400">
-                  Total Developer Commission Sequestered: <strong className="text-amber-300 font-mono">ETB {summary.devCommissionETB.toLocaleString()}</strong> + <strong className="text-amber-300 font-mono">${summary.devCommissionUSD.toLocaleString()} USD</strong> across {summary.transactionCount} transactions.
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs">
+                  <div className="font-bold text-slate-300 mb-2 font-mono">Internal Platform Revenue Logs:</div>
+                  <div className="space-y-1.5 max-h-48 overflow-y-auto font-mono text-[11px]">
+                    {internalLogs.length === 0 ? (
+                      <div className="text-slate-500 italic">No internal logs recorded in this session yet.</div>
+                    ) : (
+                      internalLogs.slice(0, 8).map((log) => (
+                        <div key={log.logId} className="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between text-slate-300">
+                          <div>
+                            <span className="text-amber-400 font-bold">{log.logId}</span> • <span className="text-slate-400">{log.category}</span>
+                            <div className="text-[10px] text-slate-500">{log.note}</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-bold text-emerald-400">+{log.grossAmount} {log.currency}</div>
+                            <div className="text-[10px] text-amber-400">Fee: {log.platformFeeAmount} {log.currency}</div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
               </div>
             )}

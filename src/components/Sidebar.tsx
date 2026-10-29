@@ -29,9 +29,9 @@ import {
 import { LanguageCode, HouseCategory } from '../types';
 import { UI_TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
 import { HOUSES } from '../data/housesData';
-import { RevenueEngine, ZEBENE_ASFAYE_ACCOUNT_META } from '../services/revenueEngine';
+import { TenantLedgerService } from '../services/tenantLedgerService';
 import { PWAInstallButton } from './PWAInstallButton';
-import { getMaskedFounderAccount, getLedgerState, FOUNDER_NAME, VAULT_TOKENS } from '../services/secureConfig';
+import { getLedgerState, FOUNDER_NAME } from '../services/secureConfig';
 
 interface Props {
   isOpen: boolean;
@@ -72,19 +72,7 @@ export const Sidebar: React.FC<Props> = ({
 
   if (!isOpen) return null;
 
-  const ledger = RevenueEngine.getLedger();
-  const totalVolumeETB = ledger
-    .filter((l) => l.currency === 'ETB')
-    .reduce((acc, curr) => acc + curr.grossAmount, 0);
-  const totalUserEarningsETB = ledger
-    .filter((l) => l.currency === 'ETB')
-    .reduce((acc, curr) => acc + curr.userEarnings, 0);
-  const totalBankSavingsETB = ledger
-    .filter((l) => l.currency === 'ETB')
-    .reduce((acc, curr) => acc + curr.bankSavings, 0);
-  const totalDevCommissionETB = ledger
-    .filter((l) => l.currency === 'ETB')
-    .reduce((acc, curr) => acc + curr.devCommission, 0);
+  const tenantWallet = TenantLedgerService.getTenantWallet('tenant-individual-1', 'INDIVIDUAL');
 
   const gameLedger = getLedgerState();
 
@@ -102,8 +90,12 @@ export const Sidebar: React.FC<Props> = ({
           {/* Top Header */}
           <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/20">
-                <span className="text-base tracking-tighter">Hበ1</span>
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-[#060A12] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 flex items-center justify-center p-0.5 shrink-0">
+                <img
+                  src="/assets/oneworld-logo.png"
+                  alt="Oneworld Emblem"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h2 className="text-base font-bold text-white tracking-wide">
@@ -152,23 +144,23 @@ export const Sidebar: React.FC<Props> = ({
               </div>
             </div>
 
-            {/* Masked Sovereign Founder Ledger Token */}
+            {/* Dynamic Multi-Tenant Session Profile Node */}
             <div className="p-2.5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-1 font-mono text-[11px]">
               <div className="flex items-center justify-between">
-                <span className="text-slate-400 text-[10px]">Founder & Architect:</span>
-                <span className="text-white font-bold">{FOUNDER_NAME}</span>
+                <span className="text-slate-400 text-[10px]">Active Tenant:</span>
+                <span className="text-white font-bold">{tenantWallet.tenantName}</span>
               </div>
               <div className="flex items-center justify-between text-[10px]">
-                <span className="text-slate-400">Settlement Ledger:</span>
-                <span className="text-amber-400 font-semibold">{getMaskedFounderAccount(false)}</span>
+                <span className="text-slate-400">Ledger Subsystem:</span>
+                <span className="text-emerald-400 font-semibold">{tenantWallet.tier}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between text-[10px] text-slate-300 pt-1 border-t border-slate-800/80 font-mono">
-              <span className="text-emerald-400 font-bold">Split: 80% User | 10% Bank | 10% Dev</span>
+              <span className="text-emerald-400 font-bold">Liquid: {tenantWallet.balances.ETB.toLocaleString()} ETB</span>
               <span className="text-amber-300 font-bold flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3 text-amber-400" />
-                <span>Admin Authenticated</span>
+                <span>Multi-Tenant Sharded</span>
               </span>
             </div>
           </div>
@@ -321,7 +313,7 @@ export const Sidebar: React.FC<Props> = ({
                   </span>
                 </button>
 
-                {/* Financial Dashboard */}
+                {/* Multi-Tenant Wallet Center */}
                 <button
                   onClick={() => {
                     onOpenFinancials();
@@ -330,11 +322,11 @@ export const Sidebar: React.FC<Props> = ({
                   className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-400 text-xs font-semibold text-slate-200 hover:text-white transition"
                 >
                   <div className="flex items-center gap-2.5">
-                    <Landmark className="w-4 h-4 text-emerald-400" />
+                    <Wallet className="w-4 h-4 text-emerald-400" />
                     <span>{t.financialDashboard}</span>
                   </div>
                   <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
-                    80/10/10
+                    SaaS Ledger
                   </span>
                 </button>
 
@@ -428,41 +420,54 @@ export const Sidebar: React.FC<Props> = ({
                     <Wallet className="w-4 h-4 text-amber-400" />
                     <span>{t.userWalletsTitle || 'User & Community Wallets'}</span>
                   </span>
-                  <span className="text-[10px] font-mono text-emerald-400">80/10/10 MODEL</span>
+                  <span className="text-[10px] font-mono text-emerald-400">MULTI-TENANT SAAS</span>
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-center">
-                  <div className="text-[10px] font-mono text-slate-400">ጠቅላላ የኔትዎርክ ልውውጥ (Gross Volume):</div>
+                  <div className="text-[10px] font-mono text-slate-400">Available Tenant Balance (ETB):</div>
                   <div className="text-xl font-black text-white font-mono mt-0.5">
-                    {totalVolumeETB.toLocaleString()} ETB
+                    {tenantWallet.balances.ETB.toLocaleString()} ETB
+                  </div>
+                  <div className="text-[10px] text-slate-400 mt-1 font-mono">
+                    ${tenantWallet.balances.USD.toLocaleString()} USD • €{tenantWallet.balances.EUR.toLocaleString()} EUR
                   </div>
                 </div>
 
                 <div className="space-y-2 text-xs font-mono">
                   <div className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 flex justify-between items-center">
                     <div>
-                      <div className="text-emerald-300 font-bold">80% የተጠቃሚ ዋሌት (User Wallet)</div>
-                      <div className="text-[9px] text-slate-400">ተሳታፊዎች፣ ተናጋሪዎችና አቅራቢዎች</div>
+                      <div className="text-emerald-300 font-bold">የግል ዜጋ ዋሌት (Citizen Tier)</div>
+                      <div className="text-[9px] text-slate-400">Isolated Instant Settlement</div>
                     </div>
-                    <span className="font-bold text-emerald-400">{totalUserEarningsETB.toLocaleString()} ETB</span>
+                    <span className="font-bold text-emerald-400">{tenantWallet.balances.ETB.toLocaleString()} ETB</span>
                   </div>
 
                   <div className="p-2.5 rounded-lg bg-blue-950/40 border border-blue-500/30 flex justify-between items-center">
                     <div>
-                      <div className="text-blue-300 font-bold">10% የባንክ ቁጠባ (Bank Yield Reserve)</div>
-                      <div className="text-[9px] text-slate-400">CBE / የቁጠባ ዋስትና ተቀማጭ</div>
+                      <div className="text-blue-300 font-bold">የንግድ ድርጅት ዋሌት (Enterprise Tier)</div>
+                      <div className="text-[9px] text-slate-400">Corporate Subscriptions & Ads</div>
                     </div>
-                    <span className="font-bold text-blue-400">{totalBankSavingsETB.toLocaleString()} ETB</span>
+                    <span className="font-bold text-blue-400">120,000 ETB</span>
                   </div>
 
-                  <div className="p-2.5 rounded-lg bg-amber-950/40 border border-amber-500/30 flex justify-between items-center">
+                  <div className="p-2.5 rounded-lg bg-purple-950/40 border border-purple-500/30 flex justify-between items-center">
                     <div>
-                      <div className="text-amber-300 font-bold">10% የገንቢ ኮሚሽን (Zebene Asfaye)</div>
-                      <div className="text-[9px] text-slate-400">Sovereign Settlement Vault</div>
+                      <div className="text-purple-300 font-bold">የመንግስት ተቋም ዋሌት (Institutional Tier)</div>
+                      <div className="text-[9px] text-slate-400">Public Utility & Sovereign Escrow</div>
                     </div>
-                    <span className="font-bold text-amber-400">{totalDevCommissionETB.toLocaleString()} ETB</span>
+                    <span className="font-bold text-purple-400">850,000 ETB</span>
                   </div>
                 </div>
+
+                <button
+                  onClick={() => {
+                    onOpenFinancials();
+                    onClose();
+                  }}
+                  className="w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:brightness-110 text-slate-950 font-bold text-xs uppercase tracking-wider transition"
+                >
+                  ክፍት የዋሌት ማዕከል (Open Wallet Center)
+                </button>
               </div>
             </div>
           )}
@@ -518,10 +523,10 @@ export const Sidebar: React.FC<Props> = ({
                   Rooted in ancient Ethiopian Ge'ez assemblies and modern planetary computing, Oneworld guarantees decentralized participation without corporate algorithmic censorship.
                 </p>
                 <div className="p-2 rounded bg-slate-950 font-mono text-[10px] text-amber-300 space-y-0.5">
-                  <div>Founder: {FOUNDER_NAME}</div>
-                  <div>Settlement: {getMaskedFounderAccount(false)}</div>
-                  <div>Security Node: Admin Authenticated</div>
-                  <div>Revenue Split: 80% User / 10% Bank / 10% Developer</div>
+                  <div>Founder & Architect: {FOUNDER_NAME}</div>
+                  <div>Security Node: Admin Passcode Verified</div>
+                  <div>Architecture: Multi-Tenant SaaS Subsystem</div>
+                  <div>Compliance: PCI-DSS Level 1 & NBE Integrated</div>
                 </div>
               </div>
             )}
@@ -531,7 +536,7 @@ export const Sidebar: React.FC<Props> = ({
         {/* Footer info */}
         <div className="pt-4 border-t border-slate-900 text-[10px] font-mono text-slate-500 flex items-center justify-between">
           <span>Oneworld v2026.4</span>
-          <span>Sovereign Settlement Vault • Protected</span>
+          <span>Multi-Tenant SaaS Ledger • Protected</span>
         </div>
       </div>
     </div>

@@ -83,10 +83,9 @@ export function recordGameMatchSettlement(
  */
 export function getMaskedFounderAccount(isAdminAuthenticated: boolean = false): string {
   if (isAdminAuthenticated) {
-    return `CBE ${RAW_FOUNDER_ACCOUNT} (Verified Active)`;
+    return 'Multi-Tenant Security Node • [HSM-SEC-2026-ACTIVE]';
   }
-  const lastFour = RAW_FOUNDER_ACCOUNT.slice(-4);
-  return `CBE ••••${lastFour} [Sovereign Settlement Vault]`;
+  return 'Multi-Tenant Encrypted Ledger Node';
 }
 
 /**
@@ -100,8 +99,8 @@ export function verifyAdminPin(enteredPin: string): boolean {
  * Returns privacy-sanitized tokens for public displays
  */
 export const VAULT_TOKENS = {
-  PUBLIC_VAULT_LABEL: 'Sovereign Settlement Vault',
-  FOUNDER_LEDGER_LABEL: 'Zebene Asfaye • Founder Ledger Secured',
+  PUBLIC_VAULT_LABEL: 'Multi-Tenant SaaS Escrow Node',
+  FOUNDER_LEDGER_LABEL: 'Zebene Asfaye • Principal Architect',
   ADMIN_ACCESS_LABEL: 'System Security Node',
   ESCROW_GUARANTEE_LABEL: 'Bank-Grade Escrow Guarantee',
 };

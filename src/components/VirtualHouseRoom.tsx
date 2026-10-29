@@ -17,10 +17,17 @@ import {
   Send,
   Lock,
   UserCheck,
+  Gift,
+  Crown,
+  Wallet,
+  CheckCircle2,
+  AlertCircle,
+  X,
 } from 'lucide-react';
 import { House, VirtualSeat, LanguageCode, ChatMessage, UserProfile } from '../types';
 import { UI_TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
 import { getInitialSeatsForHouse } from '../data/housesData';
+import { TenantLedgerService } from '../services/tenantLedgerService';
 import { House1PublicAssemblySpecial } from './specialized/House1PublicAssemblySpecial';
 import { House2GenealogySpecial } from './specialized/House2GenealogySpecial';
 import { House3GovernanceStrategySpecial } from './specialized/House3GovernanceStrategySpecial';
@@ -80,54 +87,91 @@ export const VirtualHouseRoom: React.FC<Props> = ({
   const [newMessageText, setNewMessageText] = useState('');
   const [speechCaptionIndex, setSpeechCaptionIndex] = useState(0);
 
-  // Dynamic live translated closed captions reflecting the simultaneous translation stream and 80/10/10 split
+  // Streaming Gift & VIP Seating State
+  const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
+  const [giftTargetSpeaker, setGiftTargetSpeaker] = useState<string>('Founder');
+  const [giftAmountInput, setGiftAmountInput] = useState<string>('100');
+  const [giftFeedback, setGiftFeedback] = useState<{ success: boolean; message: string } | null>(null);
+
+  const [isVipModalOpen, setIsVipModalOpen] = useState(false);
+  const [vipSeatIndex, setVipSeatIndex] = useState<number>(1);
+  const [vipFeedback, setVipFeedback] = useState<{ success: boolean; message: string } | null>(null);
+
+  const handleSendGift = (e: React.FormEvent) => {
+    e.preventDefault();
+    const amount = parseFloat(giftAmountInput);
+    if (!amount || amount <= 0) return;
+
+    const res = TenantLedgerService.processGiftTip(
+      userProfile.officialId || 'tenant-individual-1',
+      `speaker-${giftTargetSpeaker.toLowerCase()}`,
+      giftTargetSpeaker,
+      amount,
+      'ETB'
+    );
+    setGiftFeedback(res);
+  };
+
+  const handleLeaseVipSeat = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cost = 250;
+    const res = TenantLedgerService.processVipSeatLease(
+      userProfile.officialId || 'tenant-individual-1',
+      vipSeatIndex,
+      cost,
+      'ETB'
+    );
+    setVipFeedback(res);
+  };
+
+  // Dynamic live translated closed captions reflecting the simultaneous translation stream and dynamic multi-tenant SaaS ledger
   const sampleCaptions: Record<LanguageCode, string[]> = {
     am: [
       'የዘበነ አስፍዬ የ2026 አንድ ዓለም መድረክ የዲጂታል ሉዓላዊነትን እና ቀጣናዊ አንድነትን ያረጋግጣል።',
       'በዚህ ቤት ውስጥ የሚደረጉ ውይይቶች በሙሉ የተመሰጠሩ እና ከሌሎች ቤቶች ተለይተው የተጠበቁ ናቸው።',
-      'የገቢ ክፍፍሉ 80% ለተጠቃሚ ዋሌት፣ 10% ለባንክ ቁጠባ እና 10% ለገንቢው (Founder Sovereign Ledger) ይከፋፈላል።',
+      'ባለብዙ-ተከራይ የዲጂታል ዋሌት (Multi-Tenant SaaS Ledger) በእውነተኛ ጊዜ ፈጣን ክፍያን ያስተናግዳል።',
       'የቀጥታ አርቴፊሻል ኢንተለጀንስ የትርጉም ድምፅ በ 92.4 MHz ላይ እየተላለፈ ነው።',
     ],
     en: [
       'The Oneworld 2026 charter by Zebene Asfaye establishes sovereign collaboration and decentralized governance.',
       'All virtual seats in House ' + house.houseNumber + ' are strictly sandboxed with zero cross-room leakage.',
-      'Strict revenue allocation is enforced: 80% User Wallet, 10% Bank Yield, 10% Developer (Founder Sovereign Ledger).',
+      'Dynamic Multi-Tenant SaaS Ledger powers instant token swaps with encrypted settlement.',
       'Live neural AI simultaneous translation stream is synchronized with ultra-low 12ms latency.',
     ],
     om: [
       'Sirni Addunyaa Tokko kan Zebene Asfaye bara 2026 tokkummaa fi misooma hawaasaa ni cimsa.',
       'Mariin mana kana keessatti adeemsifamu hundi iccitummaan isaa kan eegameedha.',
-      'Galiin 80% fayyadamaaf, 10% qusannaaf, 10% immoo kalaqaaf qoodama (Founder Sovereign Ledger).',
+      'Sirni lakkoofsa SaaS gabaa dijitaalaa fi kaffaltii hatattamaa ni mirkaneessa.',
       'Hiikkaan AI kallattii chaanaalii Oromia Link irratti hojjetaa jira.',
     ],
     ti: [
       'ናይ ዘበነ አስፋዬ 2026 ሓደ ዓለም መድረኽ ዲጂታላዊ ሓድነትን ቁጠባዊ ምዕባለን የረጋግጽ።',
       'ኣብዚ ገዛ ዝካየድ ዘተ ብሙሉኡ ዝተሓለወን ካብ ካልእ ገዛ ዘይርከብን እዩ።',
-      'እቶት 80% ንተጠቃሚ ዋሌት፡ 10% ንዕቋር፡ 10% ንዲቨሎፐር (Founder Sovereign Ledger) ብቀጥታ ይከፋፈል።',
+      'ባለብዙ-ተከራይ ናይ ዋሌት ስርዓት (SaaS Ledger) ውሑስን ቅልጡፍን ምልውዋጥ የረጋግጽ።',
       'ቀጥታዊ ናይ ድምጺ ትርጉም ብንጡፍ ይሰርሕ ኣሎ።',
     ],
     fr: [
       'La plateforme Oneworld 2026 fondée par Zebene Asfaye garantit la souveraineté numérique et le dialogue.',
       'Toutes les places sont isolées cryptographiquement sans aucune fuite de données.',
-      'Répartition des revenus : 80% utilisateurs, 10% épargne, 10% développeur (Founder Sovereign Ledger).',
+      'Le grand livre multi-locataires SaaS assure des transferts de valeur instantanés et sécurisés.',
       'Le flux d\'interprétation simultanée par IA est synchronisé en temps réel.',
     ],
     zh: [
       '由 Zebene Asfaye 于2026年创立的 Oneworld 平台致力于促进全球与社区的互联互通。',
       '所有席位均实施沙盒安全隔离，绝无跨室数据流串扰。',
-      '严格执行收入分配：80%用户讲者收益，10%银行储备，10%开发者佣金 (Founder Sovereign Ledger)。',
+      '多租户云端账本（Multi-Tenant SaaS Ledger）保障即时且加密的代币交易。',
       'AI 神经网络同声传译流正在以 12 毫秒极低延迟实时传送。',
     ],
     ar: [
       'منصة عالم واحد لعام 2026 التي أسسها زبين أسفاي ترسخ التعاون والسيادة الرقمية المستقلة.',
       'جميع المقاعد في الغرفة معزولة تشفيرياً بالكامل بدون أي تسرب.',
-      'نظام تقسيم الإيرادات: 80% للمستخدمين، 10% مدخرات بنكية، 10% للمطور (Founder Sovereign Ledger).',
+      'نظام دفتر الأستاذ السحابي متعدد المستأجرين يضمن تسويات مالية فورية وآمنة.',
       'بث الترجمة الفورية بالذكاء الاصطناعي يعمل بأعلى دقة وزمن استجابة فائق السرعة.',
     ],
     de: [
       'Die Oneworld 2026 Charta von Zebene Asfaye sichert digitale Souveränität und globale Verbundenheit.',
       'Alle Sitze in dieser Kammer sind kryptografisch voneinander isoliert.',
-      'Strikte Umsatzverteilung: 80% Nutzer, 10% Rücklage, 10% Entwickler (Founder Sovereign Ledger).',
+      'Das mandantenfähige SaaS-Ledger garantiert blitzschnelle und verschlüsselte Abrechnungen.',
       'Der neuronale KI-Simultandolmetscher-Stream sendet synchron in Echtzeit.',
     ],
   };
@@ -262,6 +306,210 @@ export const VirtualHouseRoom: React.FC<Props> = ({
 
   return (
     <div className="min-h-screen bg-[#050B14] text-white flex flex-col pb-28">
+      {/* Streaming Gift ("ስጦታ ላክ") Modal (25% Platform Fee Split) */}
+      {isGiftModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-2xl bg-[#091322] border border-amber-500/50 p-5 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center gap-2">
+                <Gift className="w-5 h-5 text-amber-400" />
+                <h3 className="text-base font-bold text-white">ስጦታ ላክ (Live Stream Gift Tip)</h3>
+              </div>
+              <button
+                onClick={() => {
+                  setIsGiftModalOpen(false);
+                  setGiftFeedback(null);
+                }}
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-300">
+              Send tokens directly to active stage speakers. A strict <strong>25% Platform Service Fee</strong> is automated prior to creator disbursement.
+            </p>
+
+            <form onSubmit={handleSendGift} className="space-y-3">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+                  Recipient Speaker
+                </label>
+                <select
+                  value={giftTargetSpeaker}
+                  onChange={(e) => setGiftTargetSpeaker(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
+                >
+                  {speakers.map((s) => (
+                    <option key={s.id} value={s.name}>
+                      {s.name} ({s.role})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+                  Gift Amount (ETB)
+                </label>
+                <div className="grid grid-cols-4 gap-2 mb-2">
+                  {['50', '100', '250', '500'].map((amt) => (
+                    <button
+                      key={amt}
+                      type="button"
+                      onClick={() => setGiftAmountInput(amt)}
+                      className={`py-1.5 rounded-lg border font-mono text-xs font-bold transition ${
+                        giftAmountInput === amt
+                          ? 'bg-amber-500 text-slate-950 border-amber-400'
+                          : 'bg-slate-950 border-slate-800 text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      {amt} ETB
+                    </button>
+                  ))}
+                </div>
+                <input
+                  type="number"
+                  min="5"
+                  value={giftAmountInput}
+                  onChange={(e) => setGiftAmountInput(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-mono"
+                  placeholder="Custom amount..."
+                />
+              </div>
+
+              {/* Split Preview */}
+              <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono flex justify-between">
+                <span className="text-slate-400">Creator Receives (75%):</span>
+                <span className="text-emerald-400 font-bold">
+                  {(parseFloat(giftAmountInput || '0') * 0.75).toFixed(2)} ETB
+                </span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono flex justify-between">
+                <span className="text-slate-400">Platform Protocol Fee (25%):</span>
+                <span className="text-amber-400 font-bold">
+                  {(parseFloat(giftAmountInput || '0') * 0.25).toFixed(2)} ETB
+                </span>
+              </div>
+
+              {giftFeedback && (
+                <div
+                  className={`p-3 rounded-xl border text-xs font-mono flex items-start gap-2 ${
+                    giftFeedback.success
+                      ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                      : 'bg-rose-950/60 border-rose-500/40 text-rose-300'
+                  }`}
+                >
+                  {giftFeedback.success ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  )}
+                  <span>{giftFeedback.message}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold text-xs uppercase tracking-wider hover:brightness-110 transition shadow-lg"
+              >
+                Confirm & Disburse Gift (ስጦታ ላክ)
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* VIP Seating Lease Modal (10% Flat Split Fee) */}
+      {isVipModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-2xl bg-[#091322] border border-purple-500/50 p-5 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center gap-2">
+                <Crown className="w-5 h-5 text-purple-400" />
+                <h3 className="text-base font-bold text-white">VIP Audio Seat Lease (#1 to #5)</h3>
+              </div>
+              <button
+                onClick={() => {
+                  setIsVipModalOpen(false);
+                  setVipFeedback(null);
+                }}
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-300">
+              Lease priority front-row stage seats #1 through #5 with prominent avatar spotlight. A flat <strong>10% Platform Protocol Fee</strong> is applied.
+            </p>
+
+            <form onSubmit={handleLeaseVipSeat} className="space-y-3">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+                  Select VIP Seat Number
+                </label>
+                <div className="grid grid-cols-5 gap-2">
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <button
+                      key={num}
+                      type="button"
+                      onClick={() => setVipSeatIndex(num)}
+                      className={`py-2 rounded-xl border font-mono text-xs font-bold transition ${
+                        vipSeatIndex === num
+                          ? 'bg-purple-600 text-white border-purple-400 shadow'
+                          : 'bg-slate-950 border-slate-800 text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      Seat #{num}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono space-y-1">
+                <div className="flex justify-between text-slate-400">
+                  <span>Lease Term:</span>
+                  <span className="text-white font-bold">Active Live Session</span>
+                </div>
+                <div className="flex justify-between text-slate-400">
+                  <span>Gross Cost:</span>
+                  <span className="text-emerald-400 font-bold">250.00 ETB</span>
+                </div>
+                <div className="flex justify-between text-slate-400">
+                  <span>Platform Split Fee (10%):</span>
+                  <span className="text-purple-400 font-bold">25.00 ETB</span>
+                </div>
+              </div>
+
+              {vipFeedback && (
+                <div
+                  className={`p-3 rounded-xl border text-xs font-mono flex items-start gap-2 ${
+                    vipFeedback.success
+                      ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                      : 'bg-rose-950/60 border-rose-500/40 text-rose-300'
+                  }`}
+                >
+                  {vipFeedback.success ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  )}
+                  <span>{vipFeedback.message}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 transition shadow-lg"
+              >
+                Lease VIP Seat #{vipSeatIndex} (250 ETB)
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Individual Signup Gate Modal */}
       <IndividualSignupGateModal
         isOpen={isProfileModalOpen}
@@ -347,13 +595,33 @@ export const VirtualHouseRoom: React.FC<Props> = ({
               <span className="font-mono text-[10px]">{langMeta.audioFrequency.split(' ')[0]}</span>
             </button>
 
-            {/* Tip / Contribute to House */}
+            {/* Streaming Gift Redemptions ("ስጦታ ላክ") Trigger */}
+            <button
+              onClick={() => setIsGiftModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-amber-600/20 border border-amber-400/50 hover:border-amber-400 text-xs text-amber-300 font-bold transition shadow-sm"
+              title="Send Live Stream Gift (25% Platform Fee Split Applied)"
+            >
+              <Gift className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
+              <span>ስጦታ ላክ</span>
+            </button>
+
+            {/* VIP Seating Lease Trigger */}
+            <button
+              onClick={() => setIsVipModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-950/40 border border-purple-500/40 hover:border-purple-400 text-xs text-purple-300 font-semibold transition"
+              title="Lease VIP Audio Seat #1-#5 (10% Flat Split Fee)"
+            >
+              <Crown className="w-3.5 h-3.5 text-purple-400" />
+              <span className="hidden sm:inline">VIP ወንበር (10% Split)</span>
+            </button>
+
+            {/* Open Multi-Tenant Wallet Center */}
             <button
               onClick={() => onOpenFinancials(house.id)}
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-600/30 border border-emerald-500/50 hover:bg-emerald-600/40 text-xs text-emerald-300 font-semibold transition"
             >
-              <DollarSign className="w-3.5 h-3.5" />
-              <span>ድጋፍ ላክ (80/10/10)</span>
+              <Wallet className="w-3.5 h-3.5 text-emerald-400" />
+              <span>ዋሌት ማዕከል</span>
             </button>
           </div>
         </div>

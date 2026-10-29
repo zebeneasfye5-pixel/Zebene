@@ -4,9 +4,9 @@ import { getMaskedFounderAccount, FOUNDER_NAME, VAULT_TOKENS } from './secureCon
 export const ZEBENE_ASFAYE_ACCOUNT_META = {
   accountName: FOUNDER_NAME,
   cbeAccountNumber: getMaskedFounderAccount(false),
-  developerCommissionId: 'ZA-SOVEREIGN-SETTLEMENT-VAULT',
-  bankRouting: 'Commercial Bank of Ethiopia (CBE) / Swift: CBETETAA [Secured Gateway]',
-  accountTier: 'Principal Architect & Founder Direct Settlement Vault',
+  developerCommissionId: 'ZA-MULTI-TENANT-ESCROW',
+  bankRouting: 'Multi-Tenant Banking Gateway & Escrow Protocol',
+  accountTier: 'Principal Architect & Founder Multi-Tenant Node',
   establishedYear: 2026,
   getAccountNumber: (isAdmin: boolean = false) => getMaskedFounderAccount(isAdmin),
 };
