@@ -87,7 +87,7 @@ export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
 
 export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
   am: {
-    appTitle: 'አንድ ዓለም • Oneworld',
+    appTitle: 'oneworld (አንድ ዓለም)',
     founderSubtitle: 'የተመሰረተው በዘበነ አስፍዬ (Hበ1 አስፋዬ) • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: 'ባለ 3 ሰረዝ ዳሽ ቦርድ ማውጫ',
     dashboard: 'ዳሽ ቦርድ',
@@ -155,7 +155,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     founderVariablesTitle: 'የመስራቹ ዋና ተለዋዋጮች (Zebene Asfaye)',
   },
   en: {
-    appTitle: 'Oneworld',
+    appTitle: 'oneworld',
     founderSubtitle: 'Founded by Zebene Asfaye (ዘበነ አስፍዬ) • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: '3-Line Dashboard Menu',
     dashboard: 'Dashboard',
@@ -223,7 +223,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     founderVariablesTitle: 'Founder Variables (Zebene Asfaye)',
   },
   om: {
-    appTitle: 'Addunyaa Tokko • Oneworld',
+    appTitle: 'oneworld (Addunyaa Tokko)',
     founderSubtitle: 'Kan hundeeffame Zebene Asfaye (Hበ1) • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: 'Baafta Daashboordii Sarara 3',
     dashboard: 'Daashboordii',
@@ -291,7 +291,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     founderVariablesTitle: 'Jijjiiramoota Hundeeffamaa (Zebene Asfaye)',
   },
   ti: {
-    appTitle: 'ሓደ ዓለም • Oneworld',
+    appTitle: 'oneworld (ሓደ ዓለም)',
     founderSubtitle: 'ዝተመስረተ ብዘበነ አስፋዬ (Hበ1) • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: 'ባለ 3 መስመር ዳሽቦርድ ማውጫ',
     dashboard: 'ዳሽቦርድ',
@@ -359,7 +359,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     founderVariablesTitle: 'ናይ መስራቲ ተለዋወጥቲ (ዘበነ አስፋዬ)',
   },
   fr: {
-    appTitle: 'Oneworld',
+    appTitle: 'oneworld',
     founderSubtitle: 'Fondée par Zebene Asfaye (Hበ1) • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: 'Menu Tableau de Bord 3 Lignes',
     dashboard: 'Tableau de bord',
@@ -427,7 +427,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     founderVariablesTitle: 'Variables du Fondateur (Zebene Asfaye)',
   },
   zh: {
-    appTitle: '一同世界 • Oneworld',
+    appTitle: 'oneworld (一同世界)',
     founderSubtitle: '由 Zebene Asfaye (Hበ1) 创立 • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: '三线控制台菜单',
     dashboard: '控制中心',
@@ -495,7 +495,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     founderVariablesTitle: '创始人核心参数 (Zebene Asfaye)',
   },
   ar: {
-    appTitle: 'عالم واحد • Oneworld',
+    appTitle: 'oneworld (عالم واحد)',
     founderSubtitle: 'تأسست بواسطة زبين أسفاي (Hበ1) • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: 'لوحة التحكم ثلاثية الخطوط',
     dashboard: 'لوحة القيادة',
@@ -563,7 +563,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     founderVariablesTitle: 'متغيرات المؤسس الرئيسية (زبين أسفاي)',
   },
   de: {
-    appTitle: 'Oneworld',
+    appTitle: 'oneworld',
     founderSubtitle: 'Gegründet von Zebene Asfaye (Hበ1) • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: '3-Zeilen Dashboard-Menü',
     dashboard: 'Dashboard',

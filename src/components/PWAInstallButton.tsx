@@ -74,7 +74,7 @@ export const PWAInstallButton: React.FC<Props> = ({ variant = 'sidebar', onInsta
         <div className="flex items-center justify-between gap-2 px-4 py-2 bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/80 border-b border-amber-500/30 text-xs text-amber-200">
           <div className="flex items-center gap-2">
             <Smartphone className="w-4 h-4 text-amber-400 animate-pulse" />
-            <span>Install <strong>Oneworld</strong> for instant room audio and native controls</span>
+            <span>Install <strong className="lowercase">oneworld</strong> for instant room audio and native controls</span>
           </div>
           <button
             onClick={handleInstallClick}
@@ -116,14 +116,14 @@ export const PWAInstallButton: React.FC<Props> = ({ variant = 'sidebar', onInsta
                 />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">Install Oneworld (PWA)</h3>
+                <h3 className="text-base font-bold text-white lowercase">Install oneworld (PWA)</h3>
                 <p className="text-[11px] text-amber-300 font-mono">
                   Official Celestial App by Zebene Asfaye
                 </p>
               </div>
             </div>
             <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-              Oneworld is a standalone Progressive Web App founded by Zebene Asfaye (2026).
+              <strong>oneworld</strong> is a standalone Progressive Web App founded by Zebene Asfaye (2026).
             </p>
             <div className="mt-4 p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-xs text-slate-200 space-y-2">
               <div className="font-semibold text-amber-300">On iPhone / iPad:</div>

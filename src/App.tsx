@@ -356,10 +356,12 @@ export default function App() {
             <div className="flex items-center justify-center md:justify-start gap-2.5 text-white font-bold text-sm">
               <img
                 src="/assets/oneworld-logo.png"
-                alt="Oneworld Emblem"
+                alt="oneworld Emblem"
                 className="w-7 h-7 rounded-lg object-contain bg-[#070B14] border border-cyan-500/40 p-0.5 shadow-sm"
               />
-              <span>አንድ ዓለም • Oneworld Platform</span>
+              <span className="font-sans lowercase font-extrabold text-base">oneworld</span>
+              <span className="text-slate-500">•</span>
+              <span className="text-slate-300">አንድ ዓለም</span>
               <span className="text-slate-500">•</span>
               <span className="text-amber-400 font-mono text-xs">2026 Charter</span>
             </div>

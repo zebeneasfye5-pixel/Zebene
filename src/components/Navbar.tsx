@@ -70,10 +70,10 @@ export const Navbar: React.FC<Props> = ({
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-base sm:text-lg font-black tracking-tight text-white font-serif">
-                  ONEWORLD
+                <span className="text-base sm:text-lg font-extrabold tracking-tight text-white font-sans lowercase">
+                  oneworld
                 </span>
-                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
                   2026
                 </span>
               </div>
