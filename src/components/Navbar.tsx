@@ -14,6 +14,7 @@ import {
 import { LanguageCode } from '../types';
 import { UI_TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
 import { PWAInstallButton } from './PWAInstallButton';
+import { AppLogo } from './AppLogo';
 
 interface Props {
   onToggleSidebar: () => void;
@@ -60,13 +61,7 @@ export const Navbar: React.FC<Props> = ({
 
           {/* Logo & Founder Badge */}
           <div className="flex items-center gap-2.5">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-[#060A12] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 flex items-center justify-center p-0.5 shrink-0">
-              <img
-                src="/assets/oneworld-logo.png"
-                alt="Oneworld Emblem"
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <AppLogo size="md" />
 
             <div>
               <div className="flex items-center gap-2">

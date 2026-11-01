@@ -23,11 +23,20 @@ import {
   CheckCircle2,
   AlertCircle,
   X,
+  Tv,
+  Wifi,
+  WifiOff,
+  Camera,
+  CameraOff,
 } from 'lucide-react';
 import { House, VirtualSeat, LanguageCode, ChatMessage, UserProfile } from '../types';
 import { UI_TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
 import { getInitialSeatsForHouse } from '../data/housesData';
 import { TenantLedgerService } from '../services/tenantLedgerService';
+import { InteractiveVideoFeed } from './InteractiveVideoFeed';
+import { CreatorSyndicationModal } from './CreatorSyndicationModal';
+import { offlineSyncEngine } from '../services/offlineSyncService';
+import { autonomousMonetizationEngine } from '../services/autonomousMonetizationEngine';
 import { House1PublicAssemblySpecial } from './specialized/House1PublicAssemblySpecial';
 import { House2GenealogySpecial } from './specialized/House2GenealogySpecial';
 import { House3GovernanceStrategySpecial } from './specialized/House3GovernanceStrategySpecial';
@@ -97,6 +106,21 @@ export const VirtualHouseRoom: React.FC<Props> = ({
   const [vipSeatIndex, setVipSeatIndex] = useState<number>(1);
   const [vipFeedback, setVipFeedback] = useState<{ success: boolean; message: string } | null>(null);
 
+  // TikTok, YouTube & Cross-Platform Syndication Hub State
+  const [isSyndicationModalOpen, setIsSyndicationModalOpen] = useState(false);
+  const [isOffline, setIsOffline] = useState(typeof navigator !== 'undefined' ? !navigator.onLine : false);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
   const handleSendGift = (e: React.FormEvent) => {
     e.preventDefault();
     const amount = parseFloat(giftAmountInput);
@@ -145,7 +169,7 @@ export const VirtualHouseRoom: React.FC<Props> = ({
       'Hiikkaan AI kallattii chaanaalii Oromia Link irratti hojjetaa jira.',
     ],
     ti: [
-      'ናይ ዘበነ አስፋዬ 2026 ሓደ ዓለም መድረኽ ዲጂታላዊ ሓድነትን ቁጠባዊ ምዕባለን የረጋግጽ።',
+      'ናይ ዘበነ አስፍዬ 2026 ሓደ ዓለም መድረኽ ዲጂታላዊ ሓድነትን ቁጠባዊ ምዕባለን የረጋግጽ።',
       'ኣብዚ ገዛ ዝካየድ ዘተ ብሙሉኡ ዝተሓለወን ካብ ካልእ ገዛ ዘይርከብን እዩ።',
       'ባለብዙ-ተከራይ ናይ ዋሌት ስርዓት (SaaS Ledger) ውሑስን ቅልጡፍን ምልውዋጥ የረጋግጽ።',
       'ቀጥታዊ ናይ ድምጺ ትርጉም ብንጡፍ ይሰርሕ ኣሎ።',
@@ -230,7 +254,7 @@ export const VirtualHouseRoom: React.FC<Props> = ({
       flag: userProfile.flag,
       idContext: userProfile.officialId,
       avatarUrl: userProfile.photoUrl,
-      role: 'Delegate',
+      role: 'Speaker',
       isMicActive: true,
       isVideoActive: true,
       isSpeaking: true,
@@ -300,8 +324,13 @@ export const VirtualHouseRoom: React.FC<Props> = ({
     setNewMessageText('');
   };
 
-  const speakers = seats.filter((s) => s.role === 'Founder' || s.role === 'Host' || s.role === 'Speaker' || s.role === 'Judge');
-  const audience = seats.filter((s) => s.role !== 'Founder' && s.role !== 'Host' && s.role !== 'Speaker' && s.role !== 'Judge');
+  const userSeat = seats.find((s) => s.id === userSeatId || s.isLocalUser);
+  const speakers = seats.filter(
+    (s) => s.isLocalUser || s.role === 'Founder' || s.role === 'Host' || s.role === 'Speaker' || s.role === 'Judge'
+  );
+  const audience = seats.filter(
+    (s) => !s.isLocalUser && s.role !== 'Founder' && s.role !== 'Host' && s.role !== 'Speaker' && s.role !== 'Judge'
+  );
   const activeCaptions = sampleCaptions[currentLanguage] || sampleCaptions.en;
 
   return (
@@ -595,25 +624,41 @@ export const VirtualHouseRoom: React.FC<Props> = ({
               <span className="font-mono text-[10px]">{langMeta.audioFrequency.split(' ')[0]}</span>
             </button>
 
-            {/* Streaming Gift Redemptions ("ስጦታ ላክ") Trigger */}
+            {/* TikTok, YouTube & Cross-Platform Creator Syndication Relay */}
             <button
-              onClick={() => setIsGiftModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-amber-600/20 border border-amber-400/50 hover:border-amber-400 text-xs text-amber-300 font-bold transition shadow-sm"
-              title="Send Live Stream Gift (25% Platform Fee Split Applied)"
+              onClick={() => setIsSyndicationModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-red-600/20 via-pink-600/20 to-cyan-600/20 border border-pink-500/50 hover:border-pink-400 text-xs text-pink-300 font-bold transition shadow-sm"
+              title="TikTok & YouTube Live Syndication Hub"
             >
-              <Gift className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
-              <span>ስጦታ ላክ</span>
+              <Tv className="w-3.5 h-3.5 text-red-400 animate-pulse" />
+              <span>TikTok • YouTube ስርጭት</span>
             </button>
 
-            {/* VIP Seating Lease Trigger */}
-            <button
-              onClick={() => setIsVipModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-950/40 border border-purple-500/40 hover:border-purple-400 text-xs text-purple-300 font-semibold transition"
-              title="Lease VIP Audio Seat #1-#5 (10% Flat Split Fee)"
+            {/* Offline Mesh / Network Indicator */}
+            <div
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[11px] font-mono ${
+                isOffline
+                  ? 'bg-amber-950/40 border-amber-500/40 text-amber-300'
+                  : 'bg-emerald-950/30 border-emerald-500/30 text-emerald-400'
+              }`}
+              title={
+                isOffline
+                  ? 'Offline Mesh Active - Local Store & Forward Voice Sync'
+                  : 'Cloud & P2P Mesh Connected'
+              }
             >
-              <Crown className="w-3.5 h-3.5 text-purple-400" />
-              <span className="hidden sm:inline">VIP ወንበር (10% Split)</span>
-            </button>
+              {isOffline ? (
+                <>
+                  <WifiOff className="w-3 h-3 text-amber-400" />
+                  <span className="hidden sm:inline">Offline Mesh</span>
+                </>
+              ) : (
+                <>
+                  <Wifi className="w-3 h-3 text-emerald-400" />
+                  <span className="hidden sm:inline">P2P Mesh</span>
+                </>
+              )}
+            </div>
 
             {/* Open Multi-Tenant Wallet Center */}
             <button
@@ -667,6 +712,86 @@ export const VirtualHouseRoom: React.FC<Props> = ({
         {/* Left / Center Grid of Virtual Seats & Chat Panel */}
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 space-y-6">
+            {/* Front Stage Live Camera Connector (የፊትለፊት የቀጥታ ቪዲዮ ካሜራ ማገናኛ) */}
+            {!isMyVideoActive ? (
+              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#071324] via-[#0b1c38] to-[#050c18] border border-cyan-500/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-400/40 flex items-center justify-center shrink-0 shadow-inner">
+                    <Camera className="w-6 h-6 text-cyan-400 animate-pulse" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm sm:text-base font-bold text-white">
+                        የፊትለፊት የቀጥታ ቪዲዮ ካሜራ ማገናኛ (Front Camera Connector)
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono border border-cyan-500/30 font-bold">
+                        HD 60FPS + ዙም
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 mt-1">
+                      የፊት ካሜራዎን በቀጥታ በማገናኘት በመድረኩ ፊትለፊት ይሳተፉ፤ ምስልዎን በዙም ማቅረብና ማራቅ (+ / -) ይችላሉ::
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    if (!userSeatId) {
+                      handleTakeSeat();
+                    } else {
+                      handleToggleVideo(userSeatId);
+                    }
+                  }}
+                  className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                >
+                  <Camera className="w-4 h-4 text-slate-950" />
+                  <span>የፊት ካሜራ አገናኝ (Connect Front Camera)</span>
+                </button>
+              </div>
+            ) : (
+              userSeat && (
+                <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#071324] to-[#040810] border border-emerald-500/40 shadow-2xl space-y-3">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                      <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                        <span>የፊትለፊት የቀጥታ ካሜራ ስርጭትዎ</span>
+                        <span className="text-[11px] font-mono text-emerald-400 font-normal">
+                          (Your Front-Stage Broadcaster)
+                        </span>
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">
+                        🟢 LIVE ON FRONT STAGE
+                      </span>
+                      <button
+                        onClick={() => {
+                          if (userSeatId) handleToggleVideo(userSeatId);
+                        }}
+                        className="p-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-400 hover:text-white text-xs transition"
+                        title="Turn Camera Off"
+                      >
+                        <CameraOff className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="w-full max-w-5xl mx-auto">
+                    <InteractiveVideoFeed
+                      seat={userSeat}
+                      isSpeaking={isMyMicActive}
+                      onToggleVideo={() => userSeatId && handleToggleVideo(userSeatId)}
+                      enableControls={true}
+                      autoStartCamera={true}
+                      isSpotlightStage={true}
+                      defaultAspectRatio="16/9"
+                    />
+                  </div>
+                </div>
+              )
+            )}
+
             {/* Section: Stage Speakers */}
             <div>
               <div className="flex items-center justify-between mb-3.5">
@@ -893,6 +1018,13 @@ export const VirtualHouseRoom: React.FC<Props> = ({
           </div>
         </div>
       </div>
+
+      {/* Creator Syndication Modal (TikTok, YouTube, Twitch, Meta, X) */}
+      <CreatorSyndicationModal
+        isOpen={isSyndicationModalOpen}
+        onClose={() => setIsSyndicationModalOpen(false)}
+        roomTitle={house.amharicTitle}
+      />
     </div>
   );
 };
@@ -950,49 +1082,15 @@ const SeatCard: React.FC<{
         )}
       </div>
 
-      <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-950 border border-slate-800/80 mb-3 flex items-center justify-center">
-        {seat.isVideoActive ? (
-          <div className="relative w-full h-full">
-            <img
-              src={seat.avatarUrl}
-              alt={seat.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-sm text-[9px] font-mono text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-              HD Video
-            </div>
-          </div>
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-black text-slate-400 p-2 text-center">
-            <div className="w-12 h-12 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-amber-300 text-base font-bold shadow-inner">
-              {seat.name.charAt(0)}
-            </div>
-            <span className="text-[10px] text-slate-500 font-mono mt-1">Video Off</span>
-          </div>
-        )}
-
-        {isSpeaking && (
-          <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between px-2 py-1 rounded-lg bg-black/70 backdrop-blur-sm border border-emerald-500/30">
-            <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Speaking
-            </span>
-            <div className="flex items-center gap-0.5">
-              {[40, 90, 60, 100, 70].map((h, i) => (
-                <span
-                  key={i}
-                  className="w-0.5 bg-emerald-400 rounded-full animate-pulse"
-                  style={{
-                    height: `${Math.max(4, h * 0.12)}px`,
-                    animationDelay: `${i * 120}ms`,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      {/* Interactive Video Feed with Real Camera, Speech Equalizer, Zoom In (+) / Zoom Out (-), & Cinema Mode */}
+      <InteractiveVideoFeed
+        seat={seat}
+        isSpeaking={isSpeaking}
+        onToggleVideo={onToggleVideo}
+        className="mb-3"
+        enableControls={true}
+        defaultAspectRatio="16/10"
+      />
 
       <div className="space-y-1 mb-3">
         <div className="flex items-center justify-between gap-1">

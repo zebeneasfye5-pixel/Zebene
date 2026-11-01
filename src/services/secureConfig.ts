@@ -7,7 +7,7 @@
 // Fallbacks derived from protected runtime environment
 const RAW_FOUNDER_ACCOUNT = import.meta.env.VITE_FOUNDER_CBE_ACCOUNT || '1000167413618';
 const RAW_ADMIN_PIN = import.meta.env.VITE_ADMIN_SECURITY_PIN || '2026';
-export const FOUNDER_NAME = import.meta.env.VITE_FOUNDER_NAME || 'Zebene Asfaye (ዘበነ አስፋዬ)';
+export const FOUNDER_NAME = import.meta.env.VITE_FOUNDER_NAME || 'Zebene Asfaye (ዘበነ አስፍዬ)';
 
 export interface SettlementLedgerState {
   founderCommissionBalance: number;

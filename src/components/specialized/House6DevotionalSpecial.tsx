@@ -141,7 +141,7 @@ export const House6DevotionalSpecial: React.FC = () => {
             <span>አስራት፣ በረከትና ምፅዋት (Tithe & Offering)</span>
           </div>
           <p className="text-[10px] text-slate-400">
-            በ80/10/10 ሞዴል (80% ለተቋሙ፣ 10% ለቁጠባ፣ 10% ለዘበነ አስፋዬ ሉዓላዊ የክፍያ ቋት - Sovereign Settlement Vault)
+            በ80/10/10 ሞዴል (80% ለተቋሙ፣ 10% ለቁጠባ፣ 10% ለዘበነ አስፍዬ ሉዓላዊ የክፍያ ቋት - Sovereign Settlement Vault)
           </p>
           <form onSubmit={handleSendTithe} className="space-y-2">
             <div className="flex gap-2">

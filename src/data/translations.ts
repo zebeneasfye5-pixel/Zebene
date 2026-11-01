@@ -17,7 +17,7 @@ export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
     nativeName: 'አማርኛ',
     flag: '🇪🇹',
     audioFrequency: '92.4 MHz (Addis FM)',
-    sampleGreeting: 'እንኳን ወደ አንድ ዓለም (Oneworld) በደህና መጡ። የተመሰረተው በዘበነ አስፋዬ (Hበ1) 2026።',
+    sampleGreeting: 'እንኳን ወደ አንድ ዓለም (Oneworld) በደህና መጡ። የተመሰረተው በዘበነ አስፍዬ 2026።',
     voiceModel: 'Oneworld Ethiopic Neural-v4 [Amharic High-Fidelity]',
   },
   {
@@ -35,7 +35,7 @@ export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
     nativeName: 'ትግርኛ',
     flag: '🇪🇹',
     audioFrequency: '96.1 MHz (Horn Interconnect)',
-    sampleGreeting: 'እንቋዕ ናብ ሓደ ዓለም (Oneworld) ብሰላም መጻእኩም። ዝተመስረተ ብዘበነ አስፋዬ (Hበ1) 2026።',
+    sampleGreeting: 'እንቋዕ ናብ ሓደ ዓለም (Oneworld) ብሰላም መጻእኩም። ዝተመስረተ ብዘበነ አስፍዬ 2026።',
     voiceModel: 'Oneworld Semitic Neural-v3 [Tigrinya Clear]',
   },
   {
@@ -88,7 +88,7 @@ export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
 export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
   am: {
     appTitle: 'oneworld (አንድ ዓለም)',
-    founderSubtitle: 'የተመሰረተው በዘበነ አስፍዬ (Hበ1 አስፋዬ) • 2026 | Multi-Tenant SaaS Subsystem',
+    founderSubtitle: 'የተመሰረተው በዘበነ አስፍዬ • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: 'ባለ 3 ሰረዝ ዳሽ ቦርድ ማውጫ',
     dashboard: 'ዳሽ ቦርድ',
     allHouses: 'ሁሉም 15 ቤቶች (1-15)',
@@ -152,7 +152,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     userWalletsTitle: 'የተጠቃሚና የህብረተሰብ ዋሌቶች',
     sessionIsolationLogs: 'የሴሽን ማግለያ መዛግብት (Isolation Logs)',
     operationalMatrixTitle: 'የ15 ቤቶች ኦፕሬሽናል ማትሪክስ',
-    founderVariablesTitle: 'የመስራቹ ዋና ተለዋዋጮች (Zebene Asfaye)',
+    founderVariablesTitle: 'የመስራቹ ዋና ተለዋዋጮች (Zebene Asfaye / ዘበነ አስፍዬ)',
   },
   en: {
     appTitle: 'oneworld',
@@ -292,7 +292,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
   },
   ti: {
     appTitle: 'oneworld (ሓደ ዓለም)',
-    founderSubtitle: 'ዝተመስረተ ብዘበነ አስፋዬ (Hበ1) • 2026 | Multi-Tenant SaaS Subsystem',
+    founderSubtitle: 'ዝተመስረተ ብዘበነ አስፍዬ • 2026 | Multi-Tenant SaaS Subsystem',
     sidebarMenuTitle: 'ባለ 3 መስመር ዳሽቦርድ ማውጫ',
     dashboard: 'ዳሽቦርድ',
     allHouses: 'ኩሎም 15 ኣባይቲ (1-15)',
@@ -356,7 +356,7 @@ export const UI_TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     userWalletsTitle: 'ናይ ተጠቀምቲ ዋሌታት',
     sessionIsolationLogs: 'ናይ ሴሽን መዛግብቲ',
     operationalMatrixTitle: 'ናይ 15 ኣባይቲ ኦፕሬሽናል ማትሪክስ',
-    founderVariablesTitle: 'ናይ መስራቲ ተለዋወጥቲ (ዘበነ አስፋዬ)',
+    founderVariablesTitle: 'ናይ መስራቲ ተለዋወጥቲ (ዘበነ አስፍዬ)',
   },
   fr: {
     appTitle: 'oneworld',

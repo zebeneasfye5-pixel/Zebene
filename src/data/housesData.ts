@@ -9,7 +9,7 @@ export const HOUSES: House[] = [
     amharicTitle: 'ቤት 1 (የሁሉም የጋራ ቤት)',
     englishSubtitle: 'House 1: Universal Common Hub & Global Onboarding',
     shortDesc: 'Universal onboarding landing hub after secure phone/password registration. Open plenary floor for all planetary citizens.',
-    fullDesc: 'ቤት 1 በዘበነ አስፍዬ (Hበ1) በ2026 የተመሰረተ ዓለም አቀፍ የጋራ መድረክ ነው። ማንኛውም ዜጋ በስልክ ቁጥሩና በሚስጥር ቃሉ ተመዝግቦ ሙሉ መረጃውን ካረጋገጠ በኋላ የሚገባበት ማዕከላዊ አዳራሽ ሲሆን ያልተገደበ የወንበር ሥርዓትና የ8 ቋንቋዎች የቀጥታ የትርጉም ድምፅ ያካትታል።',
+    fullDesc: 'ቤት 1 በዘበነ አስፍዬ በ2026 የተመሰረተ ዓለም አቀፍ የጋራ መድረክ ነው። ማንኛውም ዜጋ በስልክ ቁጥሩና በሚስጥር ቃሉ ተመዝግቦ ሙሉ መረጃውን ካረጋገጠ በኋላ የሚገባበት ማዕከላዊ አዳራሽ ሲሆን ያልተገደበ የወንበር ሥርዓትና የ8 ቋንቋዎች የቀጥታ የትርጉም ድምፅ ያካትታል።',
     iconName: 'Globe',
     accentColor: 'from-amber-500/30 via-amber-600/10 to-transparent',
     tags: ['Universal Hub', 'Open Assembly', 'Citizen Onboarding', 'Global Stage'],

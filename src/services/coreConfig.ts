@@ -18,7 +18,7 @@ export interface PlatformConfig {
 export const PLATFORM_CONFIG: PlatformConfig = {
   platformName: 'Oneworld Platform (አንድ ዓለም)',
   charterYear: 2026,
-  founderName: 'Zebene Asfaye (ዘበነ አስፋዬ)',
+  founderName: 'Zebene Asfaye (ዘበነ አስፍዬ)',
   defaultGiftFeePercent: 25, // 25% Platform Service Fee on Live Stream Gifts
   premiumHouseAdmissionFeePercent: 10, // 10% fee on locked house admissions
   vipSeatLeaseFeePercent: 10, // 10% fee on VIP audio seats #1-#5

@@ -32,6 +32,7 @@ import { HOUSES } from '../data/housesData';
 import { TenantLedgerService } from '../services/tenantLedgerService';
 import { PWAInstallButton } from './PWAInstallButton';
 import { getLedgerState, FOUNDER_NAME } from '../services/secureConfig';
+import { AppLogo } from './AppLogo';
 
 interface Props {
   isOpen: boolean;
@@ -90,13 +91,7 @@ export const Sidebar: React.FC<Props> = ({
           {/* Top Header */}
           <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
             <div className="flex items-center gap-3">
-              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-[#060A12] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 flex items-center justify-center p-0.5 shrink-0">
-                <img
-                  src="/assets/oneworld-logo.png"
-                  alt="Oneworld Emblem"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <AppLogo size="md" />
               <div>
                 <h2 className="text-base font-bold text-white tracking-wide">
                   {t.controlDashboardTitle || 'Comprehensive Control Dashboard'}

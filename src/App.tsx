@@ -33,6 +33,7 @@ import { PWAInstallButton } from './components/PWAInstallButton';
 import { IndividualSignupGateModal } from './components/IndividualSignupGateModal';
 import { GamificationLotteryArena } from './components/GamificationLotteryArena';
 import { FOUNDER_NAME } from './services/secureConfig';
+import { AppLogo } from './components/AppLogo';
 
 export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState<LanguageCode>('am');
@@ -222,7 +223,7 @@ export default function App() {
                   <div>
                     <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[11px] font-mono font-semibold">
                       <Sparkles className="w-3 h-3 text-amber-400" />
-                      <span>FOUNDED BY ZEBENE ASFAYE (ዘበነ አስፋዬ) • 2026</span>
+                      <span>FOUNDED BY ZEBENE ASFAYE (ዘበነ አስፍዬ) • 2026</span>
                     </div>
                     <div className="text-[11px] text-cyan-300 font-mono mt-0.5">
                       ኦፊሴላዊ የሰለስቲያል ህብረ-ኮከብ አርማ (Official Celestial Emblem)
@@ -350,48 +351,37 @@ export default function App() {
       )}
 
       {/* Luxury Dark Glassmorphism Footer */}
-      <footer className="mt-auto bg-[#040810] border-t border-slate-800/80 text-xs text-slate-400 py-8 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="space-y-1.5">
+      <footer className="mt-auto bg-[#040810] border-t border-slate-800/80 text-xs text-slate-400 py-6 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+          <div className="space-y-1">
             <div className="flex items-center justify-center md:justify-start gap-2.5 text-white font-bold text-sm">
-              <img
-                src="/assets/oneworld-logo.png"
-                alt="oneworld Emblem"
-                className="w-7 h-7 rounded-lg object-contain bg-[#070B14] border border-cyan-500/40 p-0.5 shadow-sm"
-              />
+              <AppLogo size="sm" />
               <span className="font-sans lowercase font-extrabold text-base">oneworld</span>
               <span className="text-slate-500">•</span>
               <span className="text-slate-300">አንድ ዓለም</span>
               <span className="text-slate-500">•</span>
-              <span className="text-amber-400 font-mono text-xs">2026 Charter</span>
+              <span className="text-cyan-400 font-mono text-xs">2026</span>
             </div>
             <p className="text-slate-400 text-[11px]">
-              የተመሰረተው በ <strong className="text-white">{FOUNDER_NAME}</strong> • 2026 Sovereign Charter | Multi-Tenant SaaS Subsystem
-            </p>
-            <p className="text-[10px] text-slate-500 font-mono">
-              Admin Authenticated • Multi-Factor Node • House Cryptographic Sandboxing Active
+              የተመሰረተው በ <strong className="text-white">{FOUNDER_NAME}</strong> • ዓለም አቀፍ የቪዲዮ እና የድምፅ ግንኙነት መድረክ
             </p>
           </div>
 
-          <div className="flex flex-col items-center md:items-end gap-2">
+          <div className="flex flex-col items-center md:items-end gap-1.5 text-xs text-slate-400">
             <div className="flex items-center gap-2 flex-wrap justify-center text-[10px] font-mono text-slate-400">
-              <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-amber-300">
-                telebirr & Chapa Direct
+              <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-pink-400">
+                TikTok & YouTube Live Relay
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-emerald-300">
-                CBE Gateway
+              <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-cyan-300">
+                HD 60FPS Video + Zoom
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-blue-300">
-                Stripe Global
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-indigo-300">
-                PayPal & USDT
+              <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-emerald-400">
+                Offline Mesh Ready
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-mono">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>PCI-DSS Level 1 & NBE Integrated Multi-Tenant SaaS Subsystem</span>
-            </div>
+            <span className="text-[10px] text-slate-500 font-mono">
+              © 2026 oneworld. All rights reserved.
+            </span>
           </div>
         </div>
       </footer>

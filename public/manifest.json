@@ -1,0 +1,58 @@
+{
+  "id": "/",
+  "name": "oneworld (አንድ ዓለም)",
+  "short_name": "oneworld",
+  "description": "oneworld Standalone Virtual Assembly & 15 Houses Platform by Zebene Asfaye (ዘበነ አስፍዬ) 2026. Operates independently like Telegram and Facebook.",
+  "start_url": "/?mode=standalone",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#050B14",
+  "theme_color": "#050B14",
+  "categories": [
+    "social",
+    "communication",
+    "productivity",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "/assets/aistudio/Screenshot_20261029-070405_Chrome_8eeacb5b.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/aistudio/Screenshot_20261029-070405_Chrome_8eeacb5b.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/aistudio/Screenshot_20261029-070405_Chrome_8eeacb5b.jpg",
+      "sizes": "1080x2400",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "oneworld Mobile Assembly"
+    }
+  ]
+}

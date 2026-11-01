@@ -64,7 +64,7 @@ export const House2GenealogySpecial: React.FC = () => {
     },
     {
       id: 'm5',
-      name: 'Zebene Asfaye (ዘበነ አስፋዬ)',
+      name: 'Zebene Asfaye (ዘበነ አስፍዬ)',
       relation: 'Founder & Architect (ተወላጅ)',
       generation: 3,
       birthYear: 1988,
@@ -223,7 +223,7 @@ export const House2GenealogySpecial: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { title: 'የቤተሰብ ጉባኤ 1974', location: 'Addis Ababa', tag: 'Archival' },
-              { title: 'የዘበነ አስፋዬ የልጅነት ትዝታ', location: 'Ethiopia', tag: 'Historic' },
+              { title: 'የዘበነ አስፍዬ የልጅነት ትዝታ', location: 'Ethiopia', tag: 'Historic' },
               { title: 'የቅድመ-አያቶች ጥንታዊ ቅርስ', location: 'Ankober', tag: 'Heritage' },
               { title: 'ዓለም አቀፍ የዲያስፖራ ትስስር 2026', location: 'Geneva', tag: 'Modern' },
             ].map((media, i) => (
